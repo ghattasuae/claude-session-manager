@@ -1,0 +1,497 @@
+{
+  "name": "claude-session-manager",
+  "displayName": "Claude Session Manager",
+  "description": "List, resume, rename and restore Claude Code sessions, plus one-click custom terminals.",
+  "version": "0.1.0",
+  "publisher": "ghattas",
+  "license": "MIT",
+  "author": "Ghattas Salloum",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ghattasuae/claude-session-manager.git"
+  },
+  "homepage": "https://github.com/ghattasuae/claude-session-manager#readme",
+  "bugs": {
+    "url": "https://github.com/ghattasuae/claude-session-manager/issues"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "anthropic",
+    "terminal",
+    "sessions",
+    "resume",
+    "ai"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:claudeSessions"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": false
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "claudeSessionManager",
+          "title": "Claude Sessions",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "claudeSessionManager": [
+        {
+          "id": "claudeSessions",
+          "name": "Sessions",
+          "icon": "media/icon.svg",
+          "contextualTitle": "Claude Sessions"
+        },
+        {
+          "id": "claudeCustomTerminals",
+          "name": "Custom Terminals",
+          "icon": "media/icon.svg",
+          "contextualTitle": "Claude Sessions"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "claudeSessions",
+        "contents": "No Claude Code sessions found.\nSessions are read from the folder set in claudeSessions.projectsDir (default ~/.claude/projects).\n[Refresh](command:claudeSessions.refresh)\n[Open Settings](command:workbench.action.openSettings?%5B%22claudeSessions%22%5D)"
+      },
+      {
+        "view": "claudeCustomTerminals",
+        "contents": "No custom terminals yet. Save a folder and a command (for example npm run dev) and reopen it with one click.\n[Add Custom Terminal](command:claudeSessions.addCustomTerminal)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "claudeSessions.refresh",
+        "title": "Refresh",
+        "category": "Claude Sessions",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "claudeSessions.search",
+        "title": "Search Sessions",
+        "category": "Claude Sessions",
+        "icon": "$(search)"
+      },
+      {
+        "command": "claudeSessions.restoreLayout",
+        "title": "Restore Last Layout",
+        "category": "Claude Sessions",
+        "icon": "$(layers)"
+      },
+      {
+        "command": "claudeSessions.toggleWorkspaceOnly",
+        "title": "Show Current Workspace Only",
+        "category": "Claude Sessions",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "claudeSessions.toggleWorkspaceOnlyOff",
+        "title": "Show All Projects",
+        "category": "Claude Sessions",
+        "icon": "$(filter-filled)"
+      },
+      {
+        "command": "claudeSessions.showHidden",
+        "title": "Show Hidden Sessions",
+        "category": "Claude Sessions"
+      },
+      {
+        "command": "claudeSessions.hideHidden",
+        "title": "Stop Showing Hidden Sessions",
+        "category": "Claude Sessions"
+      },
+      {
+        "command": "claudeSessions.open",
+        "title": "Open Session",
+        "category": "Claude Sessions",
+        "icon": "$(play)"
+      },
+      {
+        "command": "claudeSessions.fork",
+        "title": "Open in New Terminal (Fork Session)",
+        "category": "Claude Sessions",
+        "icon": "$(repo-forked)"
+      },
+      {
+        "command": "claudeSessions.rename",
+        "title": "Rename Session",
+        "category": "Claude Sessions",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "claudeSessions.copyId",
+        "title": "Copy Session ID",
+        "category": "Claude Sessions",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "claudeSessions.revealTranscript",
+        "title": "Reveal Transcript File",
+        "category": "Claude Sessions",
+        "icon": "$(file)"
+      },
+      {
+        "command": "claudeSessions.hide",
+        "title": "Hide Session",
+        "category": "Claude Sessions",
+        "icon": "$(eye-closed)"
+      },
+      {
+        "command": "claudeSessions.unhide",
+        "title": "Unhide Session",
+        "category": "Claude Sessions",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "claudeSessions.addCustomTerminal",
+        "title": "Add Custom Terminal",
+        "category": "Claude Sessions",
+        "icon": "$(add)"
+      },
+      {
+        "command": "claudeSessions.openCustomTerminal",
+        "title": "Open Custom Terminal",
+        "category": "Claude Sessions",
+        "icon": "$(play)"
+      },
+      {
+        "command": "claudeSessions.editCustomTerminal",
+        "title": "Edit",
+        "category": "Claude Sessions",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "claudeSessions.duplicateCustomTerminal",
+        "title": "Duplicate",
+        "category": "Claude Sessions",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "claudeSessions.deleteCustomTerminal",
+        "title": "Delete",
+        "category": "Claude Sessions",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "claudeSessions.moveCustomTerminalUp",
+        "title": "Move Up",
+        "category": "Claude Sessions",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "claudeSessions.moveCustomTerminalDown",
+        "title": "Move Down",
+        "category": "Claude Sessions",
+        "icon": "$(arrow-down)"
+      },
+      {
+        "command": "claudeSessions.toggleCustomTerminalAutoRestore",
+        "title": "Toggle Include in Layout Restore",
+        "category": "Claude Sessions",
+        "icon": "$(sync)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "claudeSessions.refresh",
+          "when": "view == claudeSessions",
+          "group": "navigation@1"
+        },
+        {
+          "command": "claudeSessions.search",
+          "when": "view == claudeSessions",
+          "group": "navigation@2"
+        },
+        {
+          "command": "claudeSessions.restoreLayout",
+          "when": "view == claudeSessions",
+          "group": "navigation@3"
+        },
+        {
+          "command": "claudeSessions.toggleWorkspaceOnly",
+          "when": "view == claudeSessions && !config.claudeSessions.currentWorkspaceOnly",
+          "group": "navigation@4"
+        },
+        {
+          "command": "claudeSessions.toggleWorkspaceOnlyOff",
+          "when": "view == claudeSessions && config.claudeSessions.currentWorkspaceOnly",
+          "group": "navigation@4"
+        },
+        {
+          "command": "claudeSessions.showHidden",
+          "when": "view == claudeSessions && !claudeSessions.showHidden",
+          "group": "1_hidden"
+        },
+        {
+          "command": "claudeSessions.hideHidden",
+          "when": "view == claudeSessions && claudeSessions.showHidden",
+          "group": "1_hidden"
+        },
+        {
+          "command": "claudeSessions.addCustomTerminal",
+          "when": "view == claudeCustomTerminals",
+          "group": "navigation@1"
+        },
+        {
+          "command": "claudeSessions.restoreLayout",
+          "when": "view == claudeCustomTerminals",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "claudeSessions.open",
+          "when": "view == claudeSessions && viewItem =~ /^session/",
+          "group": "inline@1"
+        },
+        {
+          "command": "claudeSessions.open",
+          "when": "view == claudeSessions && viewItem =~ /^session/",
+          "group": "1_open@1"
+        },
+        {
+          "command": "claudeSessions.fork",
+          "when": "view == claudeSessions && viewItem =~ /^session/",
+          "group": "1_open@2"
+        },
+        {
+          "command": "claudeSessions.rename",
+          "when": "view == claudeSessions && viewItem =~ /^session/",
+          "group": "2_edit@1"
+        },
+        {
+          "command": "claudeSessions.copyId",
+          "when": "view == claudeSessions && viewItem =~ /^session/",
+          "group": "3_info@1"
+        },
+        {
+          "command": "claudeSessions.revealTranscript",
+          "when": "view == claudeSessions && viewItem =~ /^session/",
+          "group": "3_info@2"
+        },
+        {
+          "command": "claudeSessions.hide",
+          "when": "view == claudeSessions && viewItem =~ /^session(Live)?$/",
+          "group": "4_hide@1"
+        },
+        {
+          "command": "claudeSessions.unhide",
+          "when": "view == claudeSessions && viewItem == sessionHidden",
+          "group": "4_hide@1"
+        },
+        {
+          "command": "claudeSessions.openCustomTerminal",
+          "when": "view == claudeCustomTerminals && viewItem == customTerminal",
+          "group": "inline@1"
+        },
+        {
+          "command": "claudeSessions.openCustomTerminal",
+          "when": "view == claudeCustomTerminals && viewItem == customTerminal",
+          "group": "1_open@1"
+        },
+        {
+          "command": "claudeSessions.editCustomTerminal",
+          "when": "view == claudeCustomTerminals && viewItem == customTerminal",
+          "group": "2_edit@1"
+        },
+        {
+          "command": "claudeSessions.duplicateCustomTerminal",
+          "when": "view == claudeCustomTerminals && viewItem == customTerminal",
+          "group": "2_edit@2"
+        },
+        {
+          "command": "claudeSessions.toggleCustomTerminalAutoRestore",
+          "when": "view == claudeCustomTerminals && viewItem == customTerminal",
+          "group": "2_edit@3"
+        },
+        {
+          "command": "claudeSessions.moveCustomTerminalUp",
+          "when": "view == claudeCustomTerminals && viewItem == customTerminal",
+          "group": "3_move@1"
+        },
+        {
+          "command": "claudeSessions.moveCustomTerminalDown",
+          "when": "view == claudeCustomTerminals && viewItem == customTerminal",
+          "group": "3_move@2"
+        },
+        {
+          "command": "claudeSessions.deleteCustomTerminal",
+          "when": "view == claudeCustomTerminals && viewItem == customTerminal",
+          "group": "9_delete@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "claudeSessions.refresh"
+        },
+        {
+          "command": "claudeSessions.search"
+        },
+        {
+          "command": "claudeSessions.restoreLayout"
+        },
+        {
+          "command": "claudeSessions.addCustomTerminal"
+        },
+        {
+          "command": "claudeSessions.toggleWorkspaceOnly",
+          "when": "!config.claudeSessions.currentWorkspaceOnly"
+        },
+        {
+          "command": "claudeSessions.toggleWorkspaceOnlyOff",
+          "when": "config.claudeSessions.currentWorkspaceOnly"
+        },
+        {
+          "command": "claudeSessions.showHidden",
+          "when": "!claudeSessions.showHidden"
+        },
+        {
+          "command": "claudeSessions.hideHidden",
+          "when": "claudeSessions.showHidden"
+        },
+        {
+          "command": "claudeSessions.rename"
+        },
+        {
+          "command": "claudeSessions.open",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.fork",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.copyId",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.revealTranscript",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.hide",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.unhide",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.openCustomTerminal",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.editCustomTerminal",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.duplicateCustomTerminal",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.deleteCustomTerminal",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.moveCustomTerminalUp",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.moveCustomTerminalDown",
+          "when": "false"
+        },
+        {
+          "command": "claudeSessions.toggleCustomTerminalAutoRestore",
+          "when": "false"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "claudeSessions.rename",
+        "key": "f2",
+        "when": "focusedView == claudeSessions"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Session Manager",
+      "properties": {
+        "claudeSessions.claudePath": {
+          "type": "string",
+          "default": "claude",
+          "scope": "application",
+          "markdownDescription": "Path or command name of the Claude Code CLI used to resume sessions. User settings only (ignored in workspace settings)."
+        },
+        "claudeSessions.extraArgs": {
+          "type": "string",
+          "default": "",
+          "scope": "application",
+          "markdownDescription": "Extra arguments appended verbatim to every `claude --resume` command (for example `--model opus`). User settings only (ignored in workspace settings)."
+        },
+        "claudeSessions.autoRestore": {
+          "type": "string",
+          "enum": [
+            "off",
+            "prompt",
+            "always"
+          ],
+          "enumDescriptions": [
+            "Never restore the last layout automatically.",
+            "Ask whether to restore the last layout when VS Code starts.",
+            "Restore the last layout immediately when VS Code starts."
+          ],
+          "default": "prompt",
+          "description": "What to do on startup when a saved layout exists and none of it is open."
+        },
+        "claudeSessions.currentWorkspaceOnly": {
+          "type": "boolean",
+          "default": false,
+          "description": "Only show projects that belong to the open workspace folders."
+        },
+        "claudeSessions.maxSessionsPerProject": {
+          "type": "number",
+          "default": 50,
+          "minimum": 1,
+          "description": "Maximum number of sessions listed per project (newest first)."
+        },
+        "claudeSessions.projectsDir": {
+          "type": "string",
+          "default": "~/.claude/projects",
+          "scope": "application",
+          "description": "Folder that holds the Claude Code session transcripts. User settings only (ignored in workspace settings)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.mjs && tsc --noEmit",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "package": "npx --yes @vscode/vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.90.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0"
+  }
+}
